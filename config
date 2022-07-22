@@ -42,7 +42,7 @@ interval=10
 [cpu_usage]
 label=CPU:
 interval=1
-# min_width=CPU 100.00%
+min_width=CPU 100.00%
 
 # Memory usage
 #
@@ -62,21 +62,21 @@ interval=10
 # DIR=/mnt/data
 # interval=30
 
-[wifi]
+#[wifi]
 # INTERFACE=wlp3s0
 #label=W:
-interval=1
+#interval=1
 # separator=false
 
 # Network interface monitoring
 #
 # If the instance is not specified, use the interface used for default route.
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-#[iface]
-#label=ip:
-# IFACE=wlan0
-#color=#1de9b6
-#interval=10
+[iface]
+label=IP:
+#IFACE=wlan0
+color=#1de9b6
+interval=10
 
 # [bandwidth]
 # INTERFACE=eth0
@@ -104,17 +104,17 @@ interval=1
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
-[volume]
-label=♪:
+#[volume]
+#label=♪:
 # label=VOL
-interval=repeat
-signal=10
+#interval=repeat
+#signal=10
 #STEP=5%
 
 # Date Time
 #
 [time]
-command=date '+%d-%m-%y %H:%M'
+command=date '+%H:%M - %a %d %b '
 interval=5
 
 # Generic media player support
