@@ -19,11 +19,13 @@ use utf8;
 my $acpi;
 my $status;
 my $percent;
+my $time_remaining;
 my $ac_adapt;
 my $full_text;
 my $short_text;
 my $bat_number = $ENV{BAT_NUMBER} || 0;
 my $label = $ENV{LABEL} || "";
+my $charging_label = '⚡';
 
 # read the first line of the "acpi" command output
 open (ACPI, "acpi -b 2>/dev/null| grep 'Battery $bat_number' |") or die;
@@ -35,18 +37,20 @@ if (not defined($acpi)) {
     # don't print anything to stderr if there is no battery
     exit(0);
 }
-elsif ($acpi !~ /: ([\w\s]+), (\d+)%/) {
+#elsif ($acpi !~ /: ([\w\s]+), (\d+)%, (\d+)\?:(\d+)?/) {
+elsif ($acpi !~ /: ([\w\s]+), (\d+)%(?:, (\d+))?(?:\:(\d+))?/) {
 	die "$acpi\n";
 }
-
 $status = $1;
 $percent = $2;
-$full_text = "$label$percent%";
+$time_remaining = "$3:$4";
+$full_text = "$percent%";
 
-if ($status eq 'Discharging') {
-	$full_text .= ' DIS';
-} elsif ($status eq 'Charging') {
-	$full_text .= ' CHR';
+#if ($status eq 'Discharging') {
+#	$full_text .= ' DIS';
+#}
+if ($status eq 'Charging') {
+	$full_text .= " $charging_label";
 } elsif ($status eq 'Unknown') {
 	open (AC_ADAPTER, "acpi -a |") or die;
 	$ac_adapt = <AC_ADAPTER>;
@@ -56,22 +60,29 @@ if ($status eq 'Discharging') {
 		$ac_adapt = $1;
 
 		if ($ac_adapt eq 'on-line') {
-			$full_text .= ' CHR';
+			$full_text .= " $charging_label";
 		} elsif ($ac_adapt eq 'off-line') {
-			$full_text .= ' DIS';
+			$full_text .= '';
 		}
 	}
 }
-
+if ($time_remaining ne ":")
+{
+	$full_text .= " [$time_remaining]";
+}
 $short_text = $full_text;
 
-if ($acpi =~ /(\d\d:\d\d):/) {
-	$full_text .= " ($1)";
-}
+#if ($acpi =~ /(\d\d:\d\d):/) {
+#	$full_text .= " ($1)";
+#}
 
 # print text
 print "$full_text\n";
 print "$short_text\n";
+
+if ($status eq 'Charging' or $status eq "Full") {
+	print "#6CB4EE\n"
+}
 
 # consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {

@@ -34,23 +34,31 @@ markup=none
 # Support multiple chips, though lm-sensors.
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
-[temperature]
-label=TEMP
-interval=10
+#[temperature]
+#label=TEMP
+#interval=10
 
 # CPU USAGE
-[cpu_usage]
-label=CPU:
-interval=1
-min_width=CPU 100.00%
+#[cpu_usage]
+#label=CPU:
+#interval=1
+#min_width=CPU 100.00%
+
+# network
+[wifi]
+command=INTERFACE=wlp0s20f3 /home/lagtab/.config/i3blocks/wifi/wifi #; if [ $button ]; then nm-connection-editor; fi;
+#INTERFACE=wlp0s20f3
+label=W:
+interval=10
+#separator=false
 
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
-[memory]
-label=MEM:
-separator=true
-interval=10
+#[memory]
+#label=MEM:
+#separator=true
+#interval=10
 
 # Disk usage
 #
@@ -62,21 +70,16 @@ interval=10
 # DIR=/mnt/data
 # interval=30
 
-#[wifi]
-# INTERFACE=wlp3s0
-#label=W:
-#interval=1
-# separator=false
 
 # Network interface monitoring
 #
 # If the instance is not specified, use the interface used for default route.
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-[iface]
-label=IP:
+#[iface]
+#label=IP:
 #IFACE=wlan0
-color=#1de9b6
-interval=10
+#color=#1de9b6
+#interval=10
 
 # [bandwidth]
 # INTERFACE=eth0
@@ -91,24 +94,17 @@ interval=10
 # label=LOAD
 # interval=1
 
-# Battery indicator
-#
-# The battery instance defaults to 0.
-# [battery]
-# label=BAT
-# label=⚡
-# interval=30
 
 # Volume indicator
 #
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
-#[volume]
+[volume]
 #label=♪:
-# label=VOL
-#interval=repeat
-#signal=10
+label=VOL: 
+interval=once
+signal=10
 #STEP=5%
 
 # Date Time
@@ -117,14 +113,24 @@ interval=10
 command=date '+%H:%M - %a %d %b '
 interval=5
 
+# Battery indicator
+#
+# The battery instance defaults to 0.
+[battery]
+label=BAT: 
+#charging_label=⚡
+interval=30
+separator=true
+
+
 # Generic media player support
 #
 # This displays "ARTIST - SONG" if a music is playing.
 # Supported players are: spotify, vlc, audacious, xmms2, mplayer, and others.
-# [mediaplayer]
-# instance=spotify
-# interval=5
-# signal=10
+#[mediaplayer]
+#instance=spotify
+#interval=5
+#signal=10
 
 # OpenVPN support
 #
